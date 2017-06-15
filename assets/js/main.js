@@ -1,153 +1,211 @@
 /*
-	Transition by Pixelarity
+	Magnetic by Pixelarity
 	pixelarity.com | hello@pixelarity.com
 	License: pixelarity.com/license
 */
 
 (function($) {
 
-	skel
-		.breakpoints({
-			'desktop': '(min-width: 737px)',
-			'tablet': '(min-width: 737px) and (max-width: 1440px), (min-width: 737px) and (max-height: 840px)',
-			'mobile': '(max-width: 736px)',
-			'desktop-only': '(min-width: 1441px) and (min-height: 841px)'
-		})
-		.viewport({
-			breakpoints: {
-				tablet: {
-					width: 1080
-				}
-			}
-		});
+	skel.breakpoints({
+		xlarge:	'(max-width: 1680px)',
+		large:	'(max-width: 1280px)',
+		medium:	'(max-width: 980px)',
+		small:	'(max-width: 736px)',
+		xsmall:	'(max-width: 480px)'
+	});
 
-	var $window = $(window);
+	/**
+	 * Applies parallax scrolling to an element's background image.
+	 * @return {jQuery} jQuery object.
+	 */
+	$.fn._parallax = (skel.vars.browser == 'ie' || skel.vars.mobile) ? function() { return $(this) } : function(intensity) {
 
-	$window.on('load', function() {
+		var	$window = $(window),
+			$this = $(this);
 
-		var	$body = $('body'),
-			$document = $(document),
-			$form = $('form');
+		if (this.length == 0 || intensity === 0)
+			return $this;
 
-		// Fix: Placeholder polyfill.
-			$form.placeholder();
+		if (this.length > 1) {
 
-		skel
-			.on('+desktop', function() {
+			for (var i=0; i < this.length; i++)
+				$(this[i])._parallax(intensity);
 
-				// Accelerate stuff.
-					if (skel.vars.mobile)
-						$('.reel').css('-webkit-transform', 'translate3d(0,0,0)');
+			return $this;
 
-				// Vertically center.
-					var wh = $window.height(), w = $('#wrapper');
+		}
 
-					w.fadeTo(0, 0.0001);
+		if (!intensity)
+			intensity = 0.25;
 
-					w
-						.css('top', '50%')
-						.css('margin-top', (w.outerHeight() / -2) + 10);
+		$this.each(function() {
 
-				// Form key fix.
-					$form.keydown(function(e) {
+			var $t = $(this),
+				on, off;
 
-						switch (e.keyCode) {
+			on = function() {
 
-							case 35:
-							case 36:
-							case 37:
-							case 38:
-							case 39:
-							case 40:
-							case 9:
-								e.stopPropagation();
-								break;
+				$t.css('background-position', 'center 100%, center 100%, center 0px');
 
-							default:
-								break;
+				$window
+					.on('scroll._parallax', function() {
 
-						}
+						var pos = parseInt($window.scrollTop()) - parseInt($t.position().top);
+
+						$t.css('background-position', 'center ' + (pos * (-1 * intensity)) + 'px');
 
 					});
 
-				// Main slider.
-					$('#main').slidertron({
-						viewerSelector:			'.viewer',
-						reelSelector:			'.viewer .reel',
-						slidesSelector:			'.viewer .reel .slide',
-						navNextSelector:		'.next',
-						navPreviousSelector:	'.previous',
-						viewerOffset:			(skel.breakpoint('tablet').active ? 92 : 102),
-						jumpLinksSelector:		'.jumplink',
-						hashJump:				true,
-						speed:					1000,
-						fadeInSpeed:			0,
-						arrowsToNav:			true,
-						disableSelection:		false,
-						onSlideSwitch:			function(slide) {
-							$('#main .inner').scrollTop(0);
-							var x = $body.scrollTop();
-							slide.find('.inner').focus();
-							$body.scrollTop(x);
-						}
-					});
+			};
 
-				// Scrolling.
-					if (skel.vars.touch)
-						$('article .inner')
-							.css('overflow-y', 'scroll')
-							.css('-webkit-overflow-scrolling', 'touch');
-					else
-						$('article').each(function() {
-							var t = $(this), ti = t.find('.inner');
-							ti.niceScroll({
-								body: t,
-								zindex:	2
-							});
-						});
+			off = function() {
 
-				// Tab key fix.
-					$document.keydown(function(e) { if (e.keyCode == 9) e.preventDefault(); });
+				$t
+					.css('background-position', '');
 
-				// Gallery.
-					$('.gallery').poptrox({
-						overlayClass: 'poptrox-overlay',
-						usePopupDefaultStyling: false,
-						usePopupCaption: true,
-						usePopupCloser: true,
-						usePopupEasyClose: false,
-						usePopupNav: true,
-						popupCloserText: ''
-					});
+				$window
+					.off('scroll._parallax');
 
-				w.fadeTo(1000, 1);
+			};
 
-			})
-			.on('+mobile', function() {
+			skel.on('change', function() {
 
-				// Gallery.
-					$('.gallery').poptrox({
-						overlayClass: 'poptrox-overlay',
-						usePopupDefaultStyling: false,
-						usePopupCaption: false,
-						usePopupCloser: false,
-						usePopupEasyClose: true,
-						usePopupNav: false,
-						useBodyOverflow: false,
-						windowMargin: 10,
-						overlayOpacity: 0.85,
-						popupWidth: 0,
-						popupHeight: 0
-					});
-
-			})
-			.on('-desktop-only -desktop -tablet -mobile', function() {
-
-				window.setTimeout(function() {
-					location.reload(true);
-				}, 50);
+				if (skel.breakpoint('medium').active)
+					(off)();
+				else
+					(on)();
 
 			});
+
+		});
+
+		$window
+			.off('load._parallax resize._parallax')
+			.on('load._parallax resize._parallax', function() {
+				$window.trigger('scroll');
+			});
+
+		return $(this);
+
+	};
+
+	$(function() {
+
+		var	$window = $(window),
+			$body = $('body');
+
+		// Disable animations/transitions until the page has loaded.
+			$body.addClass('is-loading');
+
+			$window.on('load', function() {
+				window.setTimeout(function() {
+					$body.removeClass('is-loading');
+				}, 100);
+			});
+
+		// Fix: Placeholder polyfill.
+			$('form').placeholder();
+
+		// Prioritize "important" elements on medium.
+			skel.on('+medium -medium', function() {
+				$.prioritize(
+					'.important\\28 medium\\29',
+					skel.breakpoint('medium').active
+				);
+			});
+
+		// Body.
+			$body._parallax(-0.7);
+
+		// Menu.
+			var $menu = $('#menu');
+
+			$menu._locked = false;
+
+			$menu._lock = function() {
+
+				if ($menu._locked)
+					return false;
+
+				$menu._locked = true;
+
+				window.setTimeout(function() {
+					$menu._locked = false;
+				}, 350);
+
+				return true;
+
+			};
+
+			$menu._show = function() {
+
+				if ($menu._lock())
+					$body.addClass('is-menu-visible');
+
+			};
+
+			$menu._hide = function() {
+
+				if ($menu._lock())
+					$body.removeClass('is-menu-visible');
+
+			};
+
+			$menu._toggle = function() {
+
+				if ($menu._lock())
+					$body.toggleClass('is-menu-visible');
+
+			};
+
+			$menu
+				.appendTo($body)
+				.on('click', function(event) {
+
+					event.stopPropagation();
+
+					// Hide.
+						$menu._hide();
+
+				})
+				.find('.inner')
+					.on('click', function(event) {
+						event.stopPropagation();
+					})
+					.on('click', 'a', function(event) {
+
+						var href = $(this).attr('href');
+
+						event.preventDefault();
+						event.stopPropagation();
+
+						// Hide.
+							$menu._hide();
+
+						// Redirect.
+							window.setTimeout(function() {
+								window.location.href = href;
+							}, 350);
+
+					});
+
+			$body
+				.on('click', 'a[href="#menu"]', function(event) {
+
+					event.stopPropagation();
+					event.preventDefault();
+
+					// Toggle.
+						$menu._toggle();
+
+				})
+				.on('keydown', function(event) {
+
+					// Hide on escape.
+						if (event.keyCode == 27)
+							$menu._hide();
+
+				});
 
 	});
 
