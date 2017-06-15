@@ -1,9 +1,5 @@
-@import '../libs/vars';
-@import '../libs/functions';
-@import '../libs/mixins';
-
 ///
-/// Magnetic by Pixelarity
+/// Dimension by Pixelarity
 /// pixelarity.com | hello@pixelarity.com
 /// License: pixelarity.com/license
 ///
@@ -17,15 +13,5 @@
 
 		> .label {
 			display: none;
-		}
-
-		&.major {
-			display: block;
-			margin: 0 0 (_size(element-margin) * 0.75) 0;
-
-			&:before {
-				font-size: 2rem;
-				line-height: 2rem;
-			}
 		}
 	}

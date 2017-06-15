@@ -1,73 +1,35 @@
 /*
-	Magnetic by Pixelarity
+	Dimension by Pixelarity
 	pixelarity.com | hello@pixelarity.com
 	License: pixelarity.com/license
 */
 
-/* Banner */
+/* BG */
 
-	#banner header {
-		padding: 11em 4em 8em 4em ;
-		height: auto !important;
+	#bg:before {
+		background: rgba(19, 21, 25, 0.5);
 	}
 
-	@media screen and (max-width: 1280px) {
+/* Header */
 
-		#banner header {
-			padding: 9em 3em 6em 3em ;
+	#header .logo {
+		margin: 0 auto;
+	}
+
+	#header .content {
+		display: inline-block;
+	}
+
+	#header nav ul {
+		display: inline-block;
+	}
+
+		#header nav ul li {
+			display: inline-block;
 		}
-
-	}
 
 /* Main */
 
-	#main .features .content:after {
-		content: '';
-		display: block;
-		clear: both;
+	#main article {
+		margin: 0 auto;
 	}
-
-	#main .features .content > * {
-		float: left;
-	}
-
-	#main .spotlight:after {
-		content: '';
-		display: block;
-		clear: both;
-	}
-
-	#main .spotlight > * {
-		float: left;
-	}
-
-/* Footer */
-
-	#footer .inner:after {
-		content: '';
-		display: block;
-		clear: both;
-	}
-
-	#footer .inner > * {
-		float: left;
-	}
-
-/* Menu */
-
-	#menu {
-		background: rgba(97, 192, 149, 0.9);
-		text-align: center;
-	}
-
-		#menu:after {
-			content: '';
-			display: inline-block;
-			height: 100%;
-			vertical-align: middle;
-		}
-
-		#menu .inner {
-			display: inline-block;
-			vertical-align: middle;
-		}
