@@ -55,6 +55,7 @@
 						<!-- Work -->
 							<article id="skills">
 								<h2 class="major">Skills</h2>
+                                <div class="progress-bar crimson stripes"><span style="width: 90%"></span></div>
 								<ul class="alt">
                                     <li>Adobe InDesign, Adobe Illustrator: highly proficient</li>
                                     <li>R for statistics, data science, and machine learning (including data wrangling, use of ggplot2, dplyr, etc.): highly proficient</li>

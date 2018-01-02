@@ -71,7 +71,7 @@
 	}
 
 	body {
-		background: #1b1f22;
+		background: #191919;
 	}
 
 		body.is-loading *, body.is-loading *:before, body.is-loading *:after, body.is-switching *, body.is-switching *:before, body.is-switching *:after {
@@ -1592,3 +1592,39 @@
 		body.is-loading #footer {
 			opacity: 0;
 		}
+
+/* Progress Bars */
+
+    .progress-bar {
+        background-color: #191919;
+        height: 1em;
+        max-width: 350px;
+        margin: 2em 0;
+        border-radius: 0.2em;
+        box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+    }
+
+    .progress-bar span {
+        display: inline-block;
+        height: 100%;
+        padding: 0.2em;
+        border-radius: 0.2em;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+        transition: width .4s ease-in-out;
+    }
+
+    .crimson span {
+        background-color: #990000;   
+    }
+
+    .stripes span {
+        background-size: 30px 30px;
+        background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%,
+            transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%,
+            transparent 75%, transparent);
+        animation: animate-stripes 3s linear infinite;             
+    }
+
+    @keyframes animate-stripes {
+        0% {background-position: 0 0;} 100% {background-position: 60px 0;}
+    }
