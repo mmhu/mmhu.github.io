@@ -280,6 +280,18 @@
 		text-align: right;
 	}
 
+    .left-col {
+        width: 50%;
+        float: left;
+        padding-right: 1em;
+    }
+
+    .right-col {
+        width: 50%;
+        float: right;
+        padding-left: 1em;
+    }
+
 /* Form */
 
 	form {
@@ -1598,8 +1610,9 @@
     .progress-bar {
         background-color: #191919;
         height: 1em;
-        max-width: 350px;
-        margin: 2em 0;
+        line-height: normal;
+        max-width: 100%;
+        margin: -1.5em 0 1.5em 0;
         border-radius: 0.2em;
         box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
     }
@@ -1609,8 +1622,8 @@
         height: 100%;
         padding: 0.2em;
         border-radius: 0.2em;
-        box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
-        transition: width .4s ease-in-out;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+        transition: width 0.4s ease-in-out;
     }
 
     .crimson span {
