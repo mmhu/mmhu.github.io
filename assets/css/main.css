@@ -1227,13 +1227,10 @@
 			width: 5.5rem;
 			height: 5.5rem;
 			line-height: 5.5rem;
+            font-size: 2.5em;
 			border: solid 1px #ffffff;
 			border-radius: 100%;
 		}
-
-			#header .logo .icon:before {
-				font-size: 5rem;
-			}
 
 		#header .content {
 			border-style: solid;
@@ -1377,11 +1374,8 @@
 				width: 4.75rem;
 				height: 4.75rem;
 				line-height: 4.75rem;
+                font-size: 1.75em;
 			}
-
-				#header .logo .icon:before {
-					font-size: 1.75rem;
-				}
 
 			#header .content .inner {
 				padding: 2.5rem 1rem;
